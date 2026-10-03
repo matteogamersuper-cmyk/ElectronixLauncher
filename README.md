@@ -7,6 +7,7 @@ This project is based on the [official EML Template](https://github.com/Electron
 Powered by <a href="https://github.com/Electron-Minecraft-Launcher/EML-Lib-v2"><b>EML Lib</b></a>
 
 ![ElectronixLauncher](./.github/assets/screenshot.png)
+(The image doesn't show the actual launcher elements; it uses GoldFrite's EML template.)
 
 [<p align="center"><img src="https://img.shields.io/badge/Discord-EML-5561e6?&style=for-the-badge">](https://emlproject.com/discord/github)
 [<img src="https://img.shields.io/badge/platforms-Windows,_macOS,_Linux-0077DA?style=for-the-badge&color=0077DA">](#platforms)
