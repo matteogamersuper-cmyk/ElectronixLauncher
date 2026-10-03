@@ -3,7 +3,7 @@ import { Launcher } from 'eml-lib'
 import type { Account, IProfile } from 'eml-lib'
 import type { IGameSettings } from './settings'
 import logger from 'electron-log/main'
-import { ADMINTOOL_URL } from '../const'
+import { MINECRAFT_VERSION } from '../const'
 
 export function registerLauncherHandlers(mainWindow: BrowserWindow) {
   ipcMain.handle('game:launch', (_event, payload: { account: Account; settings: IGameSettings; profileSlug: string }) => {
@@ -12,9 +12,11 @@ export function registerLauncherHandlers(mainWindow: BrowserWindow) {
     logger.log('Launching')
 
     const launcher = new Launcher({
-      url: ADMINTOOL_URL,
-      root: 'goldfrite',
-      profile: { slug: profileSlug },
+      root: 'electronixlauncher',
+      profile: {
+        slug: profileSlug,
+        minecraft: { version: MINECRAFT_VERSION }
+      },
       account: account,
       cleaning: {
         enabled: false
@@ -153,4 +155,3 @@ export function registerLauncherHandlers(mainWindow: BrowserWindow) {
     }
   })
 }
-

@@ -77,7 +77,7 @@ const shared = {
       skinDiv.classList.add('skin-preview')
       if (s.state === 'active') skinDiv.classList.add('active')
       skinDiv.addEventListener('click', async () => {
-        if (s.state === 'active') return
+        if (!shared.account || s.state === 'active') return
         try {
           shared.skins = await skin.updateSkin(s.url, s.variant)
           shared.resetMainView()
@@ -139,7 +139,7 @@ const shared = {
     capeDiv.classList.add('cape-preview')
     if (inactive) capeDiv.classList.add('active')
     capeDiv.addEventListener('click', async () => {
-      if (!inactive) {
+      if (shared.account && !inactive) {
         try {
           shared.capes = await skin.hideCape()
           shared.resetMainView()
@@ -162,7 +162,7 @@ const shared = {
       capeDiv.classList.add('cape-preview')
       if (c.state === 'active') capeDiv.classList.add('active')
       capeDiv.addEventListener('click', async () => {
-        if (c.state === 'active') return
+        if (!shared.account || c.state === 'active') return
         try {
           shared.capes = await skin.switchCape(c.id)
           shared.resetMainView()
@@ -206,4 +206,3 @@ const shared = {
 }
 
 export default shared
-

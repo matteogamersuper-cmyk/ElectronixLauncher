@@ -1,10 +1,17 @@
-import { setUser, setView } from '../state'
+import { setGuestMode, setUser, setView } from '../state'
 import { auth, skin } from '../ipc'
 import { Dialog } from './dialog'
 import logger from 'electron-log/renderer'
 
 export function initLogin() {
   const btn = document.getElementById('btn-login-ms') as HTMLButtonElement | null
+  const guestBtn = document.getElementById('btn-continue-guest')
+
+  guestBtn?.addEventListener('click', () => {
+    setGuestMode()
+    setView('home')
+  })
+
   if (!btn) return
 
   btn.addEventListener('click', async () => {
@@ -34,4 +41,3 @@ export function initLogin() {
     }
   })
 }
-

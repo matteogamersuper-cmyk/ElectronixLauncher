@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EML Template</title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob: https://minotar.net https://textures.minecraft.net http://textures.minecraft.net; connect-src 'self' https://minotar.net https://textures.minecraft.net http://textures.minecraft.net ws://localhost:5174 http://localhost:5174"
+    />
+    <title>ElectronixLauncher</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
     <style>
@@ -108,6 +112,7 @@
             <i class="fa-brands fa-microsoft"></i>
             <span>Sign in with Microsoft</span>
           </button>
+          <button id="btn-continue-guest" class="btn btn-secondary">Continue Without Login</button>
 
           <div class="login-footer">
             <small>No account yet? <a href="https://microsoft.com">Create one here</a></small>
@@ -122,48 +127,11 @@
               <img src="" id="user-avatar" alt="Skin" />
               <div class="user-details">
                 <span id="user-name">Undefined</span>
-                <span class="rank-badge">Member</span>
+                <span class="rank-badge" id="user-rank">Member</span>
               </div>
             </div>
 
             <button id="btn-settings" class="btn btn-secondary" title="Settings"><i class="fa-fw fa-solid fa-gear"></i></button>
-          </div>
-
-          <div class="sidebar-middle">
-            <h3 class="shop-header">
-              <span>Shop</span>
-              <span class="shop-link">
-                <a href="https://emlproject.pages.dev" target="_blank"><i class="fa-fw fa-solid fa-cart-shopping"></i> Visit shop...</a>
-              </span>
-            </h3>
-            <div class="shop-item">
-              <img src="src/static/images/gold.png" class="shop-item-image" alt="Gold Rank" />
-              <div class="shop-item-details">
-                <span class="item-name">Gold Rank</span>
-                <span class="item-price">$9.99</span>
-              </div>
-            </div>
-            <div class="shop-item">
-              <img src="src/static/images/silver.png" class="shop-item-image" alt="Silver Rank" />
-              <div class="shop-item-details">
-                <span class="item-name">Silver Rank</span>
-                <span class="item-price">$6.99</span>
-              </div>
-            </div>
-            <div class="shop-item">
-              <img src="src/static/images/bronze.png" class="shop-item-image" alt="Bronze Rank" />
-              <div class="shop-item-details">
-                <span class="item-name">Bronze Rank</span>
-                <span class="item-price">$3.99</span>
-              </div>
-            </div>
-            <div class="shop-item">
-              <img src="src/static/images/box.png" class="shop-item-image" alt="Mystery Box" />
-              <div class="shop-item-details">
-                <span class="item-name">Mystery Box</span>
-                <span class="item-price">$5.99</span>
-              </div>
-            </div>
           </div>
 
           <div class="sidebar-bottom">
@@ -185,6 +153,7 @@
 
             <div class="launch-area">
               <button id="btn-play">PLAY</button>
+              <p id="guest-notice" class="guest-notice">Guest mode: sign in to play or manage skins and capes.</p>
 
               <div class="progress-container hidden" id="launch-progress-container">
                 <div class="progress-info">
@@ -202,11 +171,6 @@
         <main class="home-content">
           <div class="news-header">
             <h2>News feed</h2>
-            <div class="social-links">
-              <a href="https://emlproject.com/discord/other" target="_blank" class="btn btn-icon-only"><i class="fa-brands fa-discord"></i></a>
-              <a href="https://x.com/EMLProject" target="_blank" class="btn btn-icon-only"><i class="fa-brands fa-x-twitter"></i></a>
-              <a href="https://emlproject.com" target="_blank" class="btn btn-icon-only"><i class="fa-solid fa-globe"></i></a>
-            </div>
           </div>
 
           <hr />
@@ -366,4 +330,3 @@
     <img src="/src/static/images/bg.png" alt="default background preload" style="display: none" />
   </body>
 </html>
-

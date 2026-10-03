@@ -302,13 +302,37 @@
   transition: all 0.2s;
   box-shadow: var(--shadow-lg);
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: var(--primary-hover);
     transform: scale(1.02);
   }
 
-  &:active {
+  &:active:not(:disabled) {
     transform: scale(0.98);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+}
+
+.guest-notice {
+  display: none;
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+body.guest-mode {
+  #guest-notice {
+    display: block;
+  }
+
+  .nav-btn[data-tab='skin'],
+  .nav-btn[data-tab='account'] {
+    display: none;
   }
 }
 

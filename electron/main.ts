@@ -7,12 +7,11 @@ import { registerServerHandlers } from './handlers/server'
 import { registerNewsHandlers } from './handlers/news'
 import { registerBackgroundHandlers } from './handlers/background'
 import { registerMaintenanceHandlers } from './handlers/maintenance'
-import { registerBootstrapHandlers } from './handlers/bootstraps'
 import logger from 'electron-log/main'
 import { registerProfilesHandlers } from './handlers/profiles'
 import { registerSkinHandlers } from './handlers/skin'
 
-const APP_TITLE = 'EML Template'
+const APP_TITLE = 'ElectronixLauncher'
 const BG_COLOR = '#121212'
 
 let mainWindow: BrowserWindow | null = null
@@ -67,7 +66,7 @@ function configureAppMenu() {
     applicationName: APP_TITLE,
     applicationVersion: app.getVersion(),
     version: 'Build 2026.1',
-    copyright: 'Copyright © 2026 EML',
+    copyright: 'Copyright © 2026 matteogamersuper-cmyk',
     credits: 'Developed with EML Lib & Electron',
     iconPath: path.join(__dirname, '../build/icon.png')
   })
@@ -125,7 +124,6 @@ app.whenReady().then(() => {
     registerNewsHandlers()
     registerBackgroundHandlers()
     registerMaintenanceHandlers()
-    registerBootstrapHandlers(mainWindow)
     registerLauncherHandlers(mainWindow)
     registerSettingsHandlers()
   }
@@ -134,4 +132,3 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
   app.quit()
 })
-

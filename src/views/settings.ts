@@ -1,4 +1,4 @@
-import { setView, closeOverlay } from '../state'
+import { setView, closeOverlay, logout } from '../state'
 import { auth, settings, system, skin } from '../ipc'
 import { Dialog } from './dialog'
 import type { IGameSettings } from '../../electron/handlers/settings'
@@ -28,7 +28,7 @@ export async function initSettings() {
   initFormValues(sysInfo.resolution)
 
   const versionElem = document.getElementById('version')
-  if (versionElem) versionElem.innerText = `EML Template v${sysInfo.version}`
+  if (versionElem) versionElem.innerText = `ElectronixLauncher v${sysInfo.version}`
 }
 
 function initUIListeners() {
@@ -65,6 +65,7 @@ function initUIListeners() {
       ])
     ) {
       await auth.logout()
+      logout()
       closeOverlay('settings')
       setView('login')
     }
@@ -136,9 +137,11 @@ function initUIListeners() {
 
   tabButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab')
+      if (!shared.account && (targetTab === 'skin' || targetTab === 'account')) return
+
       tabButtons.forEach((b) => b.classList.remove('active'))
       btn.classList.add('active')
-      const targetTab = btn.getAttribute('data-tab')
       tabContents.forEach((c) => (c.id === `tab-${targetTab}` ? c.classList.add('active') : c.classList.remove('active')))
     })
   })
@@ -246,6 +249,8 @@ async function saveSettings() {
 }
 
 async function addSkin() {
+  if (!shared.account) return
+
   const addSkinUrlBtn = document.getElementById('btn-add-skin-url')!
   const addSkinFileBtn = document.getElementById('btn-add-skin-file')!
   const addSkinFileInput = document.getElementById('input-add-skin-file') as HTMLInputElement
@@ -287,4 +292,3 @@ async function addSkin() {
 function getAvailableResolutions(systemResolution: { width: number; height: number }) {
   return resolutionList.filter((res) => res.width <= systemResolution.width && res.height <= systemResolution.height)
 }
-

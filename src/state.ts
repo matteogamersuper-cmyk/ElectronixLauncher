@@ -14,7 +14,25 @@ export async function setUser(account: Account, assets: { skins: ISkin[] | null;
   shared.skins = assets.skins
   shared.capes = assets.capes
   shared.avatar = assets.avatar
+  document.body.classList.remove('guest-mode')
+  updateGuestControls(false)
   await updateUserInterface()
+}
+
+export function setGuestMode() {
+  shared.account = null
+  shared.skins = null
+  shared.capes = null
+  shared.avatar = null
+  document.body.classList.add('guest-mode')
+  updateGuestControls(true)
+
+  const nameEl = document.getElementById('user-name')
+  const rankEl = document.getElementById('user-rank')
+  const avatarEl = document.getElementById('user-avatar') as HTMLImageElement | null
+  if (nameEl) nameEl.innerText = 'Guest'
+  if (rankEl) rankEl.innerText = 'Guest mode'
+  if (avatarEl) avatarEl.src = '/src/static/images/logo.png'
 }
 
 export function logout() {
@@ -22,8 +40,22 @@ export function logout() {
   shared.skins = null
   shared.capes = null
   shared.avatar = null
+  document.body.classList.remove('guest-mode')
+  updateGuestControls(false)
   const nameEl = document.getElementById('user-name')
-  if (nameEl) nameEl.innerText = ''
+  const rankEl = document.getElementById('user-rank')
+  const avatarEl = document.getElementById('user-avatar') as HTMLImageElement | null
+  if (nameEl) nameEl.innerText = 'Undefined'
+  if (rankEl) rankEl.innerText = 'Member'
+  if (avatarEl) avatarEl.removeAttribute('src')
+}
+
+function updateGuestControls(isGuest: boolean) {
+  const playButton = document.getElementById('btn-play') as HTMLButtonElement | null
+  if (playButton) {
+    playButton.disabled = isGuest
+    playButton.title = isGuest ? 'Sign in to launch Minecraft' : ''
+  }
 }
 
 async function updateUserInterface() {
@@ -107,6 +139,5 @@ function resetSettingsTab() {
   tabButtons[0].classList.add('active')
   tabContents[0].classList.add('active')
 }
-
 
 

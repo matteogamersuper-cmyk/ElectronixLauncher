@@ -1,8 +1,11 @@
 import { setView, getUser } from '../state'
 import { game, news, server, settings, profiles } from '../ipc'
+import type { INews } from 'eml-lib'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 import logger from 'electron-log/renderer'
+
+type LauncherNews = INews & { image?: string }
 
 marked.use({
   renderer: {
@@ -14,7 +17,7 @@ marked.use({
   }
 })
 
-const formatDate = (dateString: string) => {
+const formatDate = (dateString: string | Date) => {
   const date = new Date(dateString)
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
@@ -30,6 +33,18 @@ const backgroundColor = (color: string) => {
   const b = parseInt(color.slice(5, 7), 16)
   return `rgba(${r}, ${g}, ${b}, 0.1)`
 }
+
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"']/g, (character) => {
+    const entities: Record<string, string> = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }
+    return entities[character]
+  })
 
 export function initHome() {
   const body = document.body
@@ -97,7 +112,7 @@ export function initHome() {
     if (statusText) statusText.innerHTML = 'Pinging...'
     if (playerCount) playerCount.innerHTML = ''
 
-    const status = selectedProfile ? await server.getStatus(selectedProfile.ip, selectedProfile.port || 25565) : null
+    const status = selectedProfile?.ip ? await server.getStatus(selectedProfile.ip, selectedProfile.port || 25565) : null
 
     if (status) {
       if (statusDot) {
@@ -131,11 +146,13 @@ export function initHome() {
       return
     }
 
-    feed.forEach((item: any) => {
-      let tagsHTML = ''
-      item.tags.forEach((tag: any) => {
-        tagsHTML += `<span class="tag" style="color: ${tag.color}; background-color: ${backgroundColor(tag.color)}">${tag.name}</span>`
-      })
+    feed.forEach((item: LauncherNews) => {
+      const tagsHTML = (item.tags ?? [])
+        .map((tag) => {
+          const color = /^#[\da-f]{6}$/i.test(tag.color) ? tag.color : '#888888'
+          return `<span class="tag" style="color: ${color}; background-color: ${backgroundColor(color)}">${escapeHtml(tag.title)}</span>`
+        })
+        .join('')
       const articleHTML = `
         <article class="news-article">
           <div class="article-meta">
@@ -184,14 +201,14 @@ export function initHome() {
   })
 
   playBtn?.addEventListener('click', async () => {
+    const user = getUser()
+    if (!user) return
+
     setIndeterminate(true)
     if (playBtn) playBtn.style.display = 'none'
     if (progressContainer) progressContainer.classList.remove('hidden')
     if (progressBar) progressBar.style.width = '0%'
     if (progressPercent) progressPercent.innerText = '0%'
-
-    const user = getUser()
-    if (!user) return
 
     const config = await settings.get()
 
@@ -272,8 +289,4 @@ Ready to launch the game with the following settings:
     }, 10000)
   })
 }
-
-
-
-
 
