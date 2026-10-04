@@ -4,3 +4,4 @@ function outputforfunctions(type: string, message: string) {
         console.log(`[${type}] ${message}`);
     }, 1000);
 }
+
